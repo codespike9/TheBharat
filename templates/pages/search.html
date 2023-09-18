@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+
+{% block title %}    || Search Results{% endblock title %}
+
+{% block content %}
+<div >
+  {% include 'Category_bar.html' %}
+</div>
+<div class="container">
+    <div class="ms-3 mt-3 fs-1">Search Results:-</div>
+    {% if news|length < 1 %}
+    <p>No search results</p>
+
+    Your Search - <b>{{query}}</b> - did not match any results <br>
+    <ul>
+        <li>Try different keywords</li>
+    </ul>
+  {% endif %}
+  {% if news %}
+
+  
+<div class="row">
+  {% for news in news %}
+    <div class="col-md-6">
+        <div class="card mb-3" style="max-width: 540px; border:0px">
+            <div class="row g-0">
+                <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{news.headline}}</h5>
+                      
+                      <p class="card-text"><a href="{% url 'newsDetails' news.id news.slug news.report_by|safe  %} " style="text-decoration:none; color:grey">{{news.conclusion}}</a></p>
+                      <p class="card-text"><small class="text-body-secondary"> updated at {{news.date}}</small></p>
+                    </div>
+                </div>
+              <div class="col-md-4 mt-3">
+                {% if news.image %}
+                <img src="{{news.image.url}}" class="img-fluid rounded-start" style="height:150px" alt="">                
+                {% endif %}
+                
+              </div>
+            </div>
+          </div>
+    </div>
+    {% comment %} <div class="col-md-6">
+        <div class="card mb-3" style="max-width: 540px; border:0px">
+            <div class="row g-0">
+                <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                  </div>
+              <div class="col-md-4">
+                <img src="..." class="img-fluid rounded-start" alt="...">
+              </div>
+            </div>
+          </div>
+    </div> {% endcomment %}
+    {% endfor %}
+</div>
+{% else %}
+{% endif %}
+</div>
+{% comment %} <div class="container">
+<div class="row">
+    <div class="col-8">
+        <div class="row">
+            <div class="col-4">
+                <div class="card" style="width: 15rem; border:0px">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-4">
+                <div class="card" style="width: 15rem; border:0px">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-4">
+                <div class="card" style="width: 15rem; border:0px">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card text-bg-dark">
+            <img src="../../static/image/bmw_edited.jpg" class="card-img" alt="...">
+            <div class="card-img-overlay" style="font-size:17px; margin-top:30%">
+              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+          </div>
+    </div>
+</div>
+</div> {% endcomment %}
+{% comment %} <div class="container">
+    <hr>
+    <div class="row">
+        <div class="col-2">
+            <div class="card" style="width: 10rem; border:0px">
+                <div class="card-body">
+                  <h5 >Card title</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 10rem;border:0px">
+                <div class="card-body">
+                  <h5 >Card title</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 10rem;border:0px">
+                <div class="card-body">
+                  <h5 >Card title</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 10rem;border:0px">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 10rem;border:0px">
+                <div class="card-body">
+                  <h5 >Card title</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 10rem;border:0px">
+                <div class="card-body">
+                  <h5 >Card title</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div> {% endcomment %}
+{% comment %} <div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <img src="..." alt="...">
+      <div class="card-text">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim ipsam id possimus omnis ullam vitae illum eligendi doloribus. Nostrum, est! Accusamus eligendi enim libero, sed excepturi nam reiciendis quo voluptatum.
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="card" style="width: 14rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+          <div class="card mt-3" style="width: 14rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card" style="width: 14rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+          <div class="card mt-3" style="width: 14rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card" style="width: 14rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+          <div class="card mt-3" style="width: 14rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+{% comment %} <div class="container">
+  <hr>
+  <div class="row">
+      <div class="col-2">
+          <div class="card" style="width: 10rem; border:0px">
+              <div class="card-body">
+                <h5 >Card title</h5>
+              </div>
+          </div>
+      </div>
+      <div class="col-2">
+          <div class="card" style="width: 10rem;border:0px">
+              <div class="card-body">
+                <h5 >Card title</h5>
+              </div>
+          </div>
+      </div>
+      <div class="col-2">
+          <div class="card" style="width: 10rem;border:0px">
+              <div class="card-body">
+                <h5 >Card title</h5>
+              </div>
+          </div>
+      </div>
+      <div class="col-2">
+          <div class="card" style="width: 10rem;border:0px">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+              </div>
+          </div>
+      </div>
+      <div class="col-2">
+          <div class="card" style="width: 10rem;border:0px">
+              <div class="card-body">
+                <h5 >Card title</h5>
+              </div>
+          </div>
+      </div>
+      <div class="col-2">
+          <div class="card" style="width: 10rem;border:0px">
+              <div class="card-body">
+                <h5 >Card title</h5>
+              </div>
+          </div>
+      </div>
+  </div>
+  <hr>
+</div> {% endcomment %}
+{% endblock content %}

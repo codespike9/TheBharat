@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}
+||Plan Information
+{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        {% if plan %}
+        {% for plan in plan %}
+        <div class="col-md-4 pack">
+            <div class="card rounded-4" style="width:min(90%, 1000px);border:1px solid grey;">
+                <div class="card-body">
+                    <div class="card rounded-3" style="aspect-ratio:7/3;background: rgb(209,11,41);background: linear-gradient(90deg, rgba(209,11,41,1) 0%, rgba(33,70,170,1) 0%, rgba(115,33,170,1) 32%, rgba(217,67,75,1) 89%, rgba(232,48,48,1) 100%);border:none">
+                        <div class="card-body">
+                            <h4 class="card-title text-white">{{plan.plan}}</h4>
+                            <div class="ms-1 text-white">
+                                <i class="fa-solid fa-indian-rupee-sign"> {{plan.price}}</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Monthly Price</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> {{plan.price}}</span></div>
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Extra Features</div>
+                            {% if plan.extra_features == True %}
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> Available</span></div>
+                            {% else %}
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> NA</span></div>
+                            {% endif %}
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            
+                            <div style="color:grey">Soft Copy</div>
+                            {% if plan.soft_copy == True %}
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5">Available</span></div>
+                            {% else %}
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5">NA</span></div>
+                            {% endif %}
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Weekly Magazine</div>
+                            {% if plan.weekly_magazine == True %}
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5">Available</span></div>
+                            {% else %}
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5">NA</span></div>
+                            {% endif %}
+                        </div>      
+                    </div>   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 " style="align-items:center;display:flex;">
+            <div class="card w-75 " style="border:0px">
+                <div class="card-body " style="justify-content: center;display:flex;">
+                    <form action="{% url 'buy_plan' %}" id="myForm" method="POST">
+                        {% csrf_token %}
+                        <input type="text" name="plan" value="{{plan.id}}" hidden>
+                        <input type="number" name="price" id="" value="{{plan.price}}" hidden>
+                        <input type="text" name="payment_mode" value="UPI" hidden>
+                        <button type="button" id="rzp-button1" class="btn btn-outline-primary" style="height:150px;width:150px">BUY</button>
+                        <input type="submit" name="" id="sub" value="CONTINUE" class="btn btn-outline-primary" style="height:150px;width:150px;display:none" >
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endblock %}
+
+{% block extrajs %}
+
+<script>
+    var options = {
+        "key": "rzp_test_84QavGB6R6hnD9", // Enter the Key ID generated from the Dashboard
+        "amount": "{{payment.amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "TheBharat",
+        "description": "Subscription",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{payment.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature)
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    function submitForm(){
+        const form = document.getElementById("myForm");
+        form.submit();
+    }
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+        document.getElementById('sub').style.display="block";
+        document.getElementById('rzp-button1').style.display="none";
+    }
+    </script>
+
+{% endblock extrajs %}

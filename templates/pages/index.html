@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    || Home
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row pt-4">
+    <h3 class="text-secondary ">Welcome to TheBharat!</h3>
+  </div>
+</div>
+  <div class="container">
+    <div class="row">
+        {% if news %}
+        {% for news in news %}
+      <div class="col-md-6">
+        <div id="carouselExampleCaptions" class="carousel slide">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+                {% if news.image %}
+              <a href="{% url 'newsDetails' news.id news.slug news.report_by %}"><img src="{{news.image.url}}" class="d-block w-100" ></a>
+              {% endif %}
+              <div class="carousel-caption" style="text-align:left;left:10%;right:auto;padding:5px;font-weight:700">
+                <a href="{% url 'newsDetails' news.id news.slug news.report_by %}" style="text-decoration:none;color:white"><h1 class="fs-5">{{news.headline}}</h5></a>
+                    <a href="{% url 'news_category' news.category.id %}" style="text-decoration:none;color:white"><span class="fs-3 " style="color:red; font-weight:700">|</span> {{news.category}}</a>
+              </div>
+              <div>
+                
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+      <div class="col-md-6">
+        <h6>Entertainment</h>
+        <div class="row">
+            {% if en_news %}
+            {% for en_news in en_news %}
+            <div class="col-md-6">
+              <a href="{% url 'newsDetails' en_news.id en_news.slug en_news.report_by %}">
+                <div class="card text-bg-dark rounded-0" style="border:0px;">
+                    <img src="{{en_news.image.url}}"  style="object-fit" alt="...">
+                    <div class="card-img-overlay home-en text-white" style="margin-top:17%;text-align:left;left:5%;right:auto;padding-top:15px;">
+                      <div style="font-weight:bold;font-size:14px">{{en_news.headline}}</div>
+                      <span class="fs-5 " style="color:red; font-weight:700">|</span> <span class="text-black">{{en_news.report_by}}</span>
+                    </div>
+                </div>
+              </a>
+          </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row my-3">
+      <h4 class="text-black mb-4"><span class="fs-2" style="color:yellow">| </span>Sports</h4>
+      {% if sp_news %}
+      {% for sp_news in sp_news %}
+      <a href="{% url 'newsDetails' sp_news.id sp_news.slug sp_news %}" style="text-decoration:none">
+      <div class="col-md-4">
+        <div class="card rounded-0" style="width: 18rem;border:0px;box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;">
+            <img src="{{sp_news.image.url}}" class="card-img-top rounded-0" alt="...">
+            <div class="fs-5" style="font-weight:600">
+                <div class="card-body">{{sp_news.headline}}</div>
+            </div>
+          </div>
+      </div>
+    </a>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+  <div class="container">
+    <div class="row my-3">
+      <h4 class="text-black mb-4"><span class="fs-2" style="color:Red">| </span>War</h4>
+      {% if wr_news %}
+      {% for wr_news in wr_news %}
+      <a href="{% url 'newsDetails' wr_news.id wr_news.slug wr_news.report_by %}" style="text-decoration:none">
+      <div class="col-md-4">
+        <div class="card rounded-0" style="width: 18rem;border:0px;box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;">
+            <img src="{{wr_news.image.url}}" class="card-img-top rounded-0" alt="...">
+            <div class="fs-5" style="font-weight:600">
+                <div class="card-body">{{wr_news.headline}}</div>
+            </div>
+          </div>
+      </div>
+    </a>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <h3 class="text-secondary">Most Liked News</h3>
+      <div class="col-md-6">
+        {% if mst_liked %}
+        {% for mst_liked in mst_liked %}
+        <a href="{% url 'newsDetails' mst_liked.id mst_liked.slug mst_liked.report_by %}">
+        <div id="carouselExampleCaptions" class="carousel slide">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="{{mst_liked.image.url}}" class="d-block w-100" alt="...">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>{{mst_liked.headline}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        </a>
+        {% endfor %}
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        {% if news_all %}
+        {% for n in news_all %}
+        <a href="{% url 'newsDetails' n.id n.slug n.report_by %}" style="text-decoration:none;color:black">
+        <ul>
+            <li>{{n.headline}}</li>
+        </ul>
+        </a>
+        {% endfor %}
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="my-5">
+      <h4 class="text-black mb-4"><span class="fs-2" style="color:yellow">| </span>Photo Of The Day</h4>
+        {% if photo %}
+        {% for photo in photo %}
+      <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            {% if photo %}
+            <img src="{{photo.image.url}}" class="d-block w-100" alt="...">
+            {% endif %}
+            <div class="carousel-caption d-none d-md-block">
+              <p>{{photo.headline}}</p>
+              <h5>Picture by {{photo.report_by}}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="container">
+    <h4 class="text-black mb-4"><span class="fs-2" style="color:skyblue">| </span>Editorial's Pick</h4>
+    <div class="">
+      <div class="row">
+        {% if one_editorial_pick %}
+        <div class="col-md-8">
+          <div id="carouselExampleCaptions" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <a href="{% url 'newsDetails' one_editorial_pick.id one_editorial_pick.slug one_editorial_pick.report_by %}"><img src="{{one_editorial_pick.image.url}}" class="d-block w-100 " alt="..."></a>
+                <div class="carousel-caption " style="text-align:left;left:10%;padding:5px;font-weight:600">
+                  <a href="{% url 'newsDetails' one_editorial_pick.id one_editorial_pick.slug one_editorial_pick.report_by %}" style="text-decoration:none;"><p class=" fs-5 text-white"  >{{one_editorial_pick.headline}}</p></a>
+                  <a href="{% url 'news_category' one_editorial_pick.category.id %}" style="text-decoration:none;color:white"><span class="fs-3 " style="color:red; font-weight:700">|</span> {{one_editorial_pick.category}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row my-3">
+            {% if editorial_pick %}
+              {% for news in editorial_pick %}
+            <div class="col-md-4">
+              <a href="{% url 'newsDetails' news.id news.slug news.report_by %}" style="text-decoration:none;color:black">
+              <div class="card" style="width: min(100%, 15rem);height:min(100%, 800px)">
+                <img src="{{news.image.url}}" class="card-img-top" alt="..." style="object-fit:contain">
+                <div class="fs-5" style="font-weight:600">
+                  <div class="card-body">{{news.headline}}</div>
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+              {% endif %}
+          </div>
+        </div>
+        {% endif %}
+        <div class="col-md-3" style="margin-left:7%;box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;">
+          <div class="fs-3 text-center mt-3 ">BUSINESS NEWS</div>
+          <hr>
+          {% if bn_news %}
+          {% for bn_news in bn_news %}
+          <a href="{% url 'newsDetails' bn_news.id bn_news.slug bn_news.report_by %}"><li>{{bn_news.headline}}</li></a>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+  </div>
+</div>
+    
+{% endblock content %}

@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block title %}
+|| Subscribe
+{% endblock title %}
+
+
+
+
+{% block content %}
+<div class="container ">
+    
+    <div class=" mt-5 mb-5" style="font-weight:600;font-size:30px">Choose the plan that’s right for you</div>
+    <div class="row ">
+        {% if plans %}
+        {% for plans in plans %}
+        <div class="col-md-4 pack">
+            <div class="card rounded-4" style="width:min(90%, 1000px);border:1px solid grey;">
+                <div class="card-body">
+                    <div class="card rounded-3" style="aspect-ratio:7/3;background: rgb(209,11,41);background: linear-gradient(90deg, rgba(209,11,41,1) 0%, rgba(33,70,170,1) 0%, rgba(115,33,170,1) 32%, rgba(217,67,75,1) 89%, rgba(232,48,48,1) 100%);border:none">
+                        <div class="card-body">
+                            <h4 class="card-title text-white">{{plans.plan}}</h4>
+                            <div class="ms-1 text-white">
+                                <i class="fa-solid fa-indian-rupee-sign"> {{plans.price}}</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-success"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Monthly Price</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> {{plans.price}}</span></div>
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            {% if plans.extra_features == True %}
+                            <i class="fa-solid fa-circle-check fa-2xl text-success"></i>
+                            {% else %}
+                            <i class="fa-solid fa-circle-xmark fa-2xl text-danger"></i>
+                            {% endif %}
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Extra Features</div>
+                            {% if plans.extra_features == True %}
+                            <div><span class="fs-5"> Available</span></div>
+                            {% else %}
+                            <div><span class="fs-5"> NA</span></div>
+                            {% endif %}
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            {% if plans.soft_copy == True %}
+                            <i class="fa-solid fa-circle-check fa-2xl text-success"></i>
+                            {% else %}
+                            <i class="fa-solid fa-circle-xmark fa-2xl text-danger"></i>
+                            {% endif %}                        </div>
+                        <div class="col-10">
+                            
+                            <div style="color:grey">Soft Copy</div>
+                            {% if plans.soft_copy == True %}
+                            <div><span class="fs-5">Available</span></div>
+                            {% else %}
+                            <div><span class="fs-5">NA</span></div>
+                            {% endif %}
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            {% if plans.weekly_magazine == True %}
+                            <i class="fa-solid fa-circle-check fa-2xl text-success"></i>
+                            {% else %}
+                            <i class="fa-solid fa-circle-xmark fa-2xl text-danger"></i>
+                            {% endif %}
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Weekly Magazine</div>
+                            {% if plans.weekly_magazine == True %}
+                            <div><span class="fs-5">Available</span></div>
+                            {% else %}
+                            <div><span class="fs-5">NA</span></div>
+                            {% endif %}
+                        </div>      
+                    </div>
+                    {% if subs.subscribe.id == plans.id %}
+                    <div style="text-align: center;">
+                        <span class="btn btn-primary" >Subscribed</span>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'plan_info' plans.id %}" class="btn btn-outline-primary">Buy</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% comment %} <div class="col-md-4 pack">
+            <div class="card rounded-4" style="width:min(90%, 1000px);border:1px solid grey;opacity:20">
+                <div class="card-body">
+                    <div class="card rounded-3" style="aspect-ratio:7/3;background: rgb(209,11,41);background: linear-gradient(90deg, rgba(209,11,41,1) 0%, rgba(33,70,170,1) 0%, rgba(115,33,170,1) 32%, rgba(217,67,75,1) 89%, rgba(232,48,48,1) 100%);border:none">
+                        <div class="card-body">
+                            <h4 class="card-title text-white">Basic</h4>
+                            <div class="ms-1 text-white">
+                                <i class="fa-solid fa-indian-rupee-sign"> 130</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Monthly Price</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> 130</span></div>
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Extra Features</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> Available</span></div>
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Soft Copy</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> Available</span></div>
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Weekly Magazine</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> NA</span></div>
+                        </div>      
+                    </div>
+                    <a href="" class="btn btn-outline-primary">Buy</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 pack">
+            <div class="card rounded-4" style="width: min(90%, 1000px);border:1px solid grey;opacity:20">
+                <div class="card-body">
+                    <div class="card rounded-3" style="aspect-ratio:7/3;background: rgb(209,11,41);background: linear-gradient(90deg, rgba(209,11,41,1) 0%, rgba(33,70,170,1) 0%, rgba(115,33,170,1) 32%, rgba(217,67,75,1) 89%, rgba(232,48,48,1) 100%);border:none">
+                        <div class="card-body">
+                            <h4 class="card-title text-white">Premium</h4>
+                            <div class="ms-1 text-white">
+                                <i class="fa-solid fa-indian-rupee-sign"> 300</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Monthly Price</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> 300</span></div>
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Extra Features</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> NA</span></div>
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Soft Copy</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> Available</span></div>
+                        </div>      
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <div class="col-2 mt-3">
+                            <i class="fa-solid fa-circle-check fa-2xl text-danger"></i>
+                        </div>
+                        <div class="col-10">
+                            <div style="color:grey">Weekly Magazine</div>
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i><span class="fs-5"> Available</span></div>
+                        </div>      
+                    </div>
+                    <a href="" class="btn btn-outline-primary">Buy</a>  
+                </div>
+            </div>
+        </div> {% endcomment %}
+    </div>
+</div>
+
+
+
+{% endblock content %}

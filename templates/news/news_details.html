@@ -1,0 +1,175 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+    ||News Details
+{% endblock title %}
+
+
+
+{% block content %}
+<div >
+    {% include 'Category_bar.html' %}
+  </div>
+
+<div class="container-fluid ">
+    {% if news %}
+    <div >
+            
+            <h3 class="pb-2 mt-3" style="border-bottom:2px solid grey; text-align:center; font-family:Times New Roman">{{news.headline}}
+            </h3>
+            <center><img src="{{news.image.url}}" style="height:500px"></center>
+            <div style="display:flex" class="mt-3">
+            <form action="{% url 'like' news.id %}" class="mt-1 me-2"  method="POST">
+                {% csrf_token %}
+                {% if user in like_list %}
+                <span class="btn btn-danger"><i class="fa-regular fa-heart " id="like" onclick="like()" ></i></span><p style="block">{{total_likes}} Likes</p>
+                {% else %}
+                <button type="submit" class="btn btn-outline-danger" value="{{news.id}}" name="like"><i class="fa-regular fa-heart" id="like" onclick="like()" ></i></button><p style="block">{{total_likes}} Likes</p>
+                {% endif %}
+            </form>
+            <form action="{% url 'dislike' news.id %}" class="m-1" method="POST">
+                {% csrf_token %}
+                {% if user in dislike_list %}
+                <span  class="btn btn-secondary" ><i class="fa-solid fa-heart-crack" id="like"></i></span><p style="block">{{total_dislikes}} Disikes</p>
+                {% else %}
+                <button type="submit" class="btn btn-outline-secondary" value="{{news.id}}" name="dislike"><i class="fa-solid fa-heart-crack" id="like"></i></button><p style="block">{{total_dislikes}} Disikes</p>
+                {% endif %}
+            </form>
+            <button id="copy-button" class="btn btn-outline-secondary" style="height:39px;width:42px;margin-top:3px;"><i class="fa-regular fa-clipboard"></i></button>
+            <input type="text" id="share-link" value="{{share_link}}" style="display:none" readonly>
+             
+        </div>
+            {% comment %} <a href="{% url 'likes' news.id %}" ></a> <input type="text" name="likes" id="likes" style="border:0px;width:13px" value="{{news.like_count}}" readonly required><span> Likes</span>
+            <button href="{% url 'dislikes' news.id %} " ><i class="fa-solid fa-heart-crack" id="like"  ></i></button> {% endcomment %}
+     <div>
+        <div class="fs-5 mt-1">Report By: {{news.report_by}} | {{news.date}}</div>
+        <div></div>
+    <div class="my-3">
+        {{news.description|safe}}
+    </div>
+    <hr>
+    <form action="{% url 'comment' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" value="{{user.username}}" name="username" hidden>
+        <input type="text" name="comment" placeholder="       Enter comment..." required>
+        <input type="number" name="news" value="{{news.id}}" hidden>
+        <input type="hidden" name="date" id="local_datetime">
+        <input type="submit" value="submit" >
+    </form>
+    {% if comment %}
+    
+    <div class="row mt-3">
+        {% for c in comment %}
+        {% if c.is_available %}
+        <div class="col-3">
+            <h6 class="ms-1 text-lowercase">{{c.user.username}}</h6>
+            <p class="fs-6  ">{{c.description}}-<span style="font-size:12px">{{c.date|timesince:time}}<a href="{% url 'delete_comment' c.id %}"> {% if c.user.id == user.id %}<i class="fa-regular fa-trash-can fa-lg ms-3 text-danger"></i>{% endif %}</a></span></p>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <hr>
+    {% if random_news %}
+    <div class="row">   
+    {% for random_news in random_news %}
+    <div class="col-md-6 my-1"> 
+        <div class="card mb-3" style="width: auto; height:200px">
+            <div class="row ">
+                <div class="col-md-6">
+                    {% if random_news.image %}
+                    <img src="{{random_news.image.url}}"  class="img-fluid rounded-start" style="height:200px;width:300px" alt="">
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body ms-0 ps-0 " >
+                        <h5 class="card-title fs-6">{{random_news.headline}}</h5>
+                        <div class="card-text" style="font-size:13px"><a href="{% url 'newsDetails' random_news.id random_news.slug random_news.report_by|safe  %} " style="text-decoration:none; ">{{random_news.conclusion|safe}}</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+    </div>
+    {% endif %}
+</div>  
+<div class="container-fluid">
+    {% if news_report_by %}
+    <div class="row">
+        <hr>
+        {% for news_report_by in news_report_by %}
+        
+        <div class="col-md-2 py-3 pb-4"><h5 class="card-title">{{news_report_by.headline}}</h5></div>
+        {% comment %} <div class="col-md-2 py-3 pb-4"><h5 class="card-title">Card title</h5></div>
+        <div class="col-md-2 py-3 pb-4"><h5 class="card-title">Card title</h5></div>
+        <div class="col-md-2 py-3 pb-4"><h5 class="card-title">Card title</h5></div>
+        <div class="col-md-2 py-3 pb-4"><h5 class="card-title">Card title</h5></div>
+        <div class="col-md-2 py-3 pb-4"><h5 class="card-title">Card title</h5></div> {% endcomment %}
+        
+        {% endfor %}
+        <hr>
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+
+{% endblock content %}
+{% block extrajs %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var hiddenField = document.getElementById("local_datetime");
+        hiddenField.value = new Date().toISOString(); // Capture the current local datetime
+    });
+        document.addEventListener("DOMContentLoaded", function() {
+            var oneTimeButton = document.getElementById("oneTimeButton");
+
+            // Check if the button has already been pressed (stored in localStorage)
+            if (localStorage.getItem("buttonPressed")) {
+                oneTimeButton.disabled = true;
+            } else {
+                // If the button hasn't been pressed, add a click event listener
+                oneTimeButton.addEventListener("click", function() {
+                    // Perform your button's action here
+                    alert("Button clicked!");
+
+                    // Mark the button as pressed in localStorage
+                    localStorage.setItem("buttonPressed", "true");
+
+                    // Disable the button after it's clicked
+                    oneTimeButton.disabled = true;
+                });
+            }
+        });
+        document.getElementById("copy-button").addEventListener("click", function() {
+            // Get the input element containing the link
+            var linkInput = document.getElementById("share-link");
+        
+            // Select the text in the input element
+            linkInput.style.display = "block";
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999); // For mobile devices
+        
+            try {
+                // Execute the copy command
+                var successful = document.execCommand('copy');
+                var message = successful ? 'Link copied to clipboard!' : 'Unable to copy link.';
+        
+                // Show a message to the user indicating whether the copy was successful
+                alert(message);
+            } catch (err) {
+                // If the copy command fails (usually due to browser restrictions),
+                // provide a fallback method for copying the link manually
+                var fallbackMessage = 'Press Ctrl/Cmd + C to copy the link.';
+                alert(fallbackMessage);
+            }
+            linkInput.style.display = "none";
+        });
+        
+</script>
+
+
+{% endblock extrajs %}
