@@ -143,5 +143,5 @@ EMAIL_HOST_PASSWORD="password"
 EMAIL_USE_TLS=True
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-KEY='rzp_test_84QavGB6R6hnD9'
-SECRET='PWGYJXE2ACiC00aUSgAvaSg2'
+KEY='razorpay key'
+SECRET='razor pay secret key'
